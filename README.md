@@ -51,7 +51,7 @@ class Person {
   func hasValidBankCard() -> Bool
 
   // 2.5. Private functions
-  private func _setupPerson() -> Void
+  private func setupPerson() -> Void
 }
 
 // 3. extensions, protocol implementations
