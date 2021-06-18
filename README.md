@@ -89,7 +89,7 @@ extension Person : CustomStringConvertible {
 * Protocols that describe what something is should read as nouns
 * Protocols that describe a capability should end in -able or -ible
 * Use terms that don't surprise experts or confuse beginners
-* Generally avoiding abbreviations
+* Generally avoid abbreviations
 * Prefer methods and properties to free functions
 * Case acronyms and initialisms uniformly up or down
 * Give the same base name to methods that share the same meaning
