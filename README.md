@@ -881,13 +881,14 @@ class MyClass {
 
 // RIGHT
 class MyClass {
-
+  
+  var someValue: Int
+  
   init() {
     someValue = 0
     super.init()
   }
-
-  var someValue: Int
+  
 }
 ```
 
