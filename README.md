@@ -212,7 +212,7 @@ UIView.animate(withDuration: 0.3, animations: {
 * Chained methods using trailing closures should be clear and easy to read in context.
 
 ```swift
-  let value = numbers.map { $0 * 2 }.filter { $0 .isMultiple(of: 3) }.map { $0 + 10 }
+  let value = numbers.map { $0 * 2 }.filter { $0.isMultiple(of: 3) }.map { $0 + 10 }
 
   let value1 = numbers
     .map { $0 * 2 }
