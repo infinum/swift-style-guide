@@ -149,7 +149,7 @@ let hypotenuse = side * root2 // what is root2?
 ### Preferred
 
 ```swift
-let color: String = "red"
+let color = "red"
 ```
 
 ### Not preferred
