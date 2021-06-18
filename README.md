@@ -155,7 +155,7 @@ let color = "red"
 ### Not preferred
 
 ```swift
-let colour: String = "red"
+let colour = "red"
 ```
 
 _Rationale:_ Use US English spelling to match Apple's API.
