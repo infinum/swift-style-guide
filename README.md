@@ -392,7 +392,7 @@ func doSomething() -> Void {
 let success = reticulateSplines(splines)
 ```
 
-* Long function invocations should also break on each argument if there is more than 3 arguments. Put the closing parenthesis on the last line of the invocation
+* Break long function invocations on each argument if it makes common sense and/or if it breaks the maximum character per line rule. Put the closing parenthesis on the last line of the invocation.
 
 ### Preferred:
 
