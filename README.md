@@ -1,4 +1,4 @@
-## A guide to our Swift style and conventions.
+# A guide to our Swift style and conventions.
 
 This is an attempt to encourage patterns of coding that help accomplish the following goals (in
 a rough priority order):
@@ -14,6 +14,35 @@ a rough priority order):
 * Read, understand, and apply [KISS](https://en.wikipedia.org/wiki/KISS_principle).
 
 ***Trivia:*** The phrase was coined by the lead engineer of SR-71 Blackbird.
+
+## Table of Contents
+1. [Whitespace](#whitespace)
+2. [Code organization](#code-organization)
+3. [Code segmentation](#code-segmentation)
+4. [Minimal Imports](#minimal-imports)
+5. [Naming](#naming)
+6. [Constants](#constants)
+7. [Comments](#comments)
+8. [Language](#language)
+9. [Closures](#closures)
+10. [Closure expressions](#closure-expressions)
+11. [Computed Properties](#computed-properties)
+12. [Delegates](#delegates)
+13. [Functions](#functions)
+14. [Prefer `let`-bindings over `var`-bindings wherever possible](#prefer-`let`-bindings-over-`var`-bindings-wherever-possible)
+15. [Return and break early](#return-and-break-early)
+16. [Optionals](#optionals)
+17. [Always specify access control explicitly for top-level definitions](#always-specify-access-control-explicitly-for-top-level-definitions)
+18. [Style](#style)
+19. [Patterns](#patterns)
+20. [Prefer structs over classes](#prefer-structs-over-classes)
+21. [Make classes `final` by default](#make-classes-`final`-by-default)
+22. [Protocol Conformance](#protocol-conformance)
+23. [Types](#types)
+24. [Use Type Inferred Context](#use-type-inferred-context)
+25. [Operators](#operators)
+26. [Lazy Initialization](#lazy-initialization)
+27. [Forbidden](#forbidden)
 
 ## Whitespace
 
@@ -967,7 +996,7 @@ let array: Array<String> = []
 let dictionary: Dictionary<String, Any> = [:]
 ```
 
-* Prefer using guard at the beginning of a scope (see example at Early Return)
+* Prefer using guard at the beginning of a scope (see example at [Return and Break Early](#return-and-break-early))
 * Prefer methods within type definitions instead of global functions
 
 ## Patterns
