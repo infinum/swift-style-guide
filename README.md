@@ -1323,5 +1323,5 @@ private func makeLocationManager() -> CLLocationManager {
 
 * Types should never have prefixes because their names are already implicitly mangled and prefixed by their module name.
 * Semicolons are obfuscative and should never be used.
-* Unused (dead) code, including Xcode template code and placeholder comments should be removed
-* Don't use `#imageLiteral` or `#colorLiteral`, use Redbreast
+* Unused (dead) code, including Xcode template code and placeholder comments should be removed.
+* Don't use `#imageLiteral` or `#colorLiteral`, use Redbreast.
