@@ -20,7 +20,7 @@ a rough priority order):
 * Tabs, not spaces.
 * End files with a new line.
 * Make liberal use of vertical whitespace to divide the code into logical chunks.
-* Don’t leave trailing whitespace.
+* Don’t leave trailing whitespace. Xcode has an option for this in `Preferences -> Automatically trim trailing whitespace and Including whitespace-only lines`.
 * Not even leading indentation on blank lines.
 
 ## Code organization
@@ -59,6 +59,16 @@ class Person {
   private func setupPerson() -> Void
 }
 
+// 2.5. Public, internal functions
+public extension Person {
+    func hasValidBankCard() -> Bool
+}
+
+// 2.6. Private functions
+private extension Person {
+    func setupPerson() -> Void
+}
+
 // 3. extensions, protocol implementations
 extension Person: CustomStringConvertible {
 
@@ -71,6 +81,8 @@ extension Person: CustomStringConvertible {
   }
 }
 ```
+
+Segments `2.5.` and  `2.6` should be grouped into meaningful extension blocks which can then be private or public.
 
 ## Code segmentation
 
@@ -222,9 +234,8 @@ UIView.animate(withDuration: 0.3, animations: {
 * Chained methods using trailing closures should be clear and easy to read in context.
 
 ```swift
-  let value = numbers.map { $0 * 2 }.filter { $0.isMultiple(of: 3) }.map { $0 + 10 }
-
-  let value1 = numbers
+  let value = numbers.map { $0 * 2 }.filter { $0.isMultiple(of: 3) }.map { $0 + 10 } // WRONG
+  let value1 = numbers // RIGHT
     .map { $0 * 2 }
     .filter { $0 > 50 }
     .map { $0 + 10 }
@@ -305,7 +316,7 @@ func reticulateSplines(
 ### Preferred:
 
 ```swift
-func updateConstraints() -> Void {
+func updateConstraints() {
   // magic happens here
 }
 
@@ -319,7 +330,12 @@ func updateConstraints() -> () {
   // magic happens here
 }
 
+func updateConstraints() -> Void {
+  // magic happens here
+}
+
 typealias CompletionHandler = (result) -> ()
+typealias CompletionHandler = (result) -> Void
 ```
 
 * Omit Void return types from function definitions
@@ -503,6 +519,14 @@ guard n.isNumber else {
 ```
 
 You can also do it with an `if` statement, but using `guard` is preferred because a `guard` statement without `return`, `break`, or `continue` produces a compile-time error, so exit is guaranteed.
+The guard statement avoids an unnecessary block compared to an if and avoids an indentation level, which is especially nice for early returns.
+
+```swift
+for element in input {
+  guard let result = transformThatReturnsAnOptional(element) else { continue }
+  results.append(result)
+}
+```
 
 ## Optionals
 
@@ -515,6 +539,14 @@ if let foo = foo {
 } else {
     // If appropriate, handle the case where the optional is nil
 }
+
+// or this
+
+guard let foo = foo else {
+    return
+}
+
+// Use unwrapped `foo` value in here
 ```
 
 * Alternatively, you might want to use Swift's Optional Chaining in some of these cases, such as:
@@ -613,7 +645,7 @@ class MyClass {
 
   func request(completion: () -> Void) {
     API.request { [weak self] response in
-      guard let strongSelf = self else { return }
+      guard let self = self else { return }
       // Do work
       completion()
     }
@@ -810,7 +842,7 @@ if let galaxy = galaxy,
   galaxy.name == "Milky Way" // Indenting by two spaces fights Xcode's ^+I indentation behavior
 { … }
 
-// WRONG
+// RIGHT
 guard let galaxy = galaxy,
       galaxy.name == "Milky Way" // Variable width indentation (6 spaces)
 else { … }
@@ -877,7 +909,7 @@ let array: [String] = []
 let dictionary: [String: Any] = [:]
 ```
     
-* Prefer using guard at the beginning of a scope
+* Prefer using guard at the beginning of a scope (see example at Early Return)
 * Prefer methods within type definitions instead of global functions
 
 ## Patterns
