@@ -51,12 +51,6 @@ class Person {
 
   // 2.4. Initializers
   init(name: String, bankCard: BankCard)
-
-  // 2.5. Public, internal functions
-  func hasValidBankCard() -> Bool
-
-  // 2.6. Private functions
-  private func setupPerson() -> Void
 }
 
 // 2.5. Public, internal functions
@@ -167,16 +161,16 @@ let hypotenuse = side * root2 // what is root2?
 
 ## Language
 
-### Preferred
+### Preferred:
 
 ```swift
 let color = "red"
 ```
 
-### Not preferred
+### Not Preferred:
 
 ```swift
-let colour: String = "red"
+let colour = "red"
 ```
 
 _Rationale:_ Use US English spelling to match Apple's API.
@@ -209,7 +203,7 @@ UIView.animate(
 )
 ```
 
-### Not preferred
+### Not Preferred:
 
 ```swift
 UIView.animate(withDuration: 0.3, animations: {
@@ -233,12 +227,19 @@ UIView.animate(withDuration: 0.3, animations: {
 
 * Chained methods using trailing closures should be clear and easy to read in context.
 
+### Preferred:
+
 ```swift
-  let value = numbers.map { $0 * 2 }.filter { $0.isMultiple(of: 3) }.map { $0 + 10 } // WRONG
-  let value1 = numbers // RIGHT
+  let value1 = numbers
     .map { $0 * 2 }
     .filter { $0 > 50 }
     .map { $0 + 10 }
+```
+
+### Not Preferred:
+
+```swift
+let value = numbers.map { $0 * 2 }.filter { $0.isMultiple(of: 3) }.map { $0 + 10 }
 ```
 
 * Name unused closure parameters as underscores (`_`)
@@ -340,14 +341,18 @@ typealias CompletionHandler = (result) -> Void
 
 * Omit Void return types from function definitions
 
+### Preferred:
+
 ```swift
-// WRONG
-func doSomething() -> Void {
+func doSomething() {
   ...
 }
+```
 
-// RIGHT
-func doSomething() {
+### Not Preferred:
+
+```swift
+func doSomething() -> Void {
   ...
 }
 ```
@@ -360,38 +365,9 @@ let success = reticulateSplines(splines)
 
 * Long function invocations should also break on each argument if there is more than 3 arguments. Put the closing parenthesis on the last line of the invocation
 
+### Preferred:
+
 ```swift
-// WRONG
-universe.generateStars(at: location, count: 5, color: starColor, withAverageDistance: 4)
-
-// WRONG
-universe.generateStars(
-    at: location,
- count: 5,
- color: starColor,
- withAverageDistance: 4
-radimuin)
-
-
-// WRONG
-universe.generate(5,
-  .stars,
-  at: location)
-
-// WRONG
-universe.generateStars(
-  at: location,
-  count: 5,
-  color: starColor,
-  withAverageDistance: 4)
-
-// WRONG
-universe.generate(
-  5,
-  .stars,
-  at: location)
-
-// RIGHT
 universe.generateStars(
   at: location,
   count: 5,
@@ -400,18 +376,72 @@ universe.generateStars(
 )
 ```
 
+### Not Preferred:
+
+```swift
+universe.generateStars(at: location, count: 5, color: starColor, withAverageDistance: 4)
+
+universe.generateStars(
+    at: location,
+ count: 5,
+ color: starColor,
+ withAverageDistance: 4
+radimuin)
+
+universe.generate(5,
+  .stars,
+  at: location)
+
+universe.generateStars(
+  at: location,
+  count: 5,
+  color: starColor,
+  withAverageDistance: 4)
+
+universe.generate(
+  5,
+  .stars,
+  at: location)
+```
+
 * Separate long function declarations with line breaks before each argument label and before the return signature
 * Put the open curly brace on the next line so the first executable line doesn't look like it's another parameter
+
+
+### Preferred:
+
+```swift
+class Universe { }
+
+    func generateStars(
+      at location: Point,
+      count: Int,
+      color: StarColor,
+      withAverageDistance averageDistance: Float
+    ) -> String {
+      populateUniverse()
+    }
+
+    func generateStars(
+      at location: Point,
+      count: Int,
+      color: StarColor,
+      withAverageDistance averageDistance: Float
+    ) throws -> String {
+      populateUniverse()
+    }
+}
+```
+
+### Not Preferred:
 
 ```swift
 class Universe {
 
-  // WRONG
   func generateStars(at location: Point, count: Int, color: StarColor, withAverageDistance averageDistance: Float) -> String {
     // This is too long and will probably auto-wrap in a weird way
   }
 
-  // WRONG
   func generateStars(at location: Point,
                      count: Int,
                      color: StarColor,
@@ -420,7 +450,6 @@ class Universe {
     // Xcode indents all the arguments
   }
 
-  // WRONG
   func generateStars(
     at location: Point,
     count: Int,
@@ -429,7 +458,6 @@ class Universe {
     populateUniverse() // this line blends in with the argument list
   }
 
-  // WRONG
   func generateStars(
     at location: Point,
     count: Int,
@@ -437,26 +465,6 @@ class Universe {
     withAverageDistance averageDistance: Float) throws
     -> String {
     populateUniverse() // this line blends in with the argument list
-  }
-
-  // RIGHT
-  func generateStars(
-    at location: Point,
-    count: Int,
-    color: StarColor,
-    withAverageDistance averageDistance: Float
-  ) -> String {
-    populateUniverse()
-  }
-
-  // RIGHT
-  func generateStars(
-    at location: Point,
-    count: Int,
-    color: StarColor,
-    withAverageDistance averageDistance: Float
-  ) throws -> String {
-    populateUniverse()
   }
 }
 ```
@@ -475,27 +483,28 @@ Accordingly, whenever you see a `var` identifier being used, assume that it will
 
 Prefer immutable values whenever possible. Use map and compactMap instead of appending to a new collection. Use filter instead of removing elements from a mutable collection.
 
+### Preferred:
+
 ```swift
-// WRONG
+let results = input.map(transform)
+
+let results = input.compactMap(transformThatReturnsAnOptional)
+```
+### Not Preferred:
+
+```swift
 var results = [SomeType]()
 for element in input {
   let result = transform(element)
   results.append(result)
 }
 
-// RIGHT
-let results = input.map(transform)
-
-// WRONG
 var results = [SomeType]()
 for element in input {
   if let result = transformThatReturnsAnOptional(element) {
     results.append(result)
   }
 }
-
-// RIGHT
-let results = input.compactMap(transformThatReturnsAnOptional)
 ```
 
 ## Return and break early
@@ -621,26 +630,29 @@ extension History {
 
 * Don't use `self` unless it's necessary for disambiguation or required by the language
 
+### Preferred:
+
 ```swift
 private func increaseCapacity(by amount: Int) {
-    // WRONG
-    self.capacity += amount
-
-    // RIGHT
     capacity += amount
-
-    // WRONG
-    self.save()
-
-    // RIGHT
     save()
+}
+```
+
+### Not Preferred:
+
+```swift
+private func increaseCapacity(by amount: Int) {
+    self.capacity += amount
+    self.save()
 }
 ```
 
 * Bind to `self` when upgrading from a weak reference
 
+### Preferred:
+
 ```swift
- //WRONG
 class MyClass {
 
   func request(completion: () -> Void) {
@@ -651,8 +663,11 @@ class MyClass {
     }
   }
 }
+```
 
-// RIGHT
+### Not Preferred:
+
+```swift
 class MyClass {
 
   func request(completion: () -> Void) {
@@ -669,90 +684,100 @@ class MyClass {
 
 * Name members of tuples for extra clarity
 
-```swift
-// WRONG
-func whatever() -> (Int, Int) {
-  return (4, 4)
-}
-let thing = whatever()
-print(thing.0)
+### Preferred:
 
-// RIGHT
+```swift
 func whatever() -> (x: Int, y: Int) {
   return (x: 4, y: 4)
 }
+
+let thing = whatever()
+print(thing.0)
+```
+
+### Not Preferred:
+
+```swift
+func whatever() -> (Int, Int) {
+  return (4, 4)
+}
+
+let thing = whatever()
+print(thing.0)
 ```
 
 * Place the colon immediately after an identifier, followed by a space
 
-```swift
-// WRONG
-var something : Double = 0
+### Preferred:
 
-// RIGHT
+```swift
 var something: Double = 0
 
-// WRONG
-class MyClass : SuperClass {
-  // ...
-}
-
-// RIGHT
 class MyClass: SuperClass {
   // ...
 }
 
+var dict = [KeyType: ValueType]()
+```
 
-// WRONG
+### Not Preferred:
+
+```swift
+var something : Double = 0
+
+class MyClass : SuperClass {
+  // ...
+}
+
 var dict = [KeyType:ValueType]()
 var dict = [KeyType : ValueType]()
-
-// RIGHT
-var dict = [KeyType: ValueType]()
 ```
 
 * Place a space on either side of a return arrow for readability
 
-```swift
-// WRONG
-func doSomething()->String {
-  // ...
-}
+### Preferred:
 
-// RIGHT
+```swift
 func doSomething() -> String {
   // ...
 }
 ```
 
-* Omit unnecessary parentheses
+### Not Preferred:
 
 ```swift
-// WRONG
-if (userCount > 0) { ... }
-switch (someValue) { ... }
-let evens = userCounts.filter { (number) in number % 2 == 0 }
-let squares = userCounts.map() { $0 * $0 }
+func doSomething()->String {
+  // ...
+}
+```
 
-// RIGHT
+
+* Omit unnecessary parentheses
+
+### Preferred:
+
+```swift
 if userCount > 0 { ... }
 switch someValue { ... }
 let evens = userCounts.filter { number in number % 2 == 0 }
 let squares = userCounts.map { $0 * $0 }
 ```
 
-* Omit enum associated values from case statements when all arguments are unlabelled
+### Not Preferred:
 
 ```swift
-// WRONG
-if case .done(_) = result { ... }
+if (userCount > 0) { ... }
+switch (someValue) { ... }
+let evens = userCounts.filter { (number) in number % 2 == 0 }
+let squares = userCounts.map() { $0 * $0 }
+```
 
-switch animal {
-case .dog(_, _, _):
-  ...
-}
+* Omit enum associated values from case statements when all arguments are unlabelled
 
-// RIGHT
+
+### Preferred:
+
+```swift
 if case .done = result { ... }
 
 switch animal {
@@ -760,19 +785,23 @@ case .dog:
   ...
 }
 ```
+
+### Not Preferred:
+
+```swift
+if case .done(_) = result { ... }
+
+switch animal {
+case .dog(_, _, _):
+  ...
+}
+```
     
 * Omit type parameters where possible
 
-```swift
-// WRONG
-struct Composite<T> {
-  …
-  func compose(other: Composite<T>) -> Composite<T> {
-    return Composite<T>(self, other)
-  }
-}
+### Preferred:
 
-// RIGHT
+```swift
 struct Composite<T> {
   …
   func compose(other: Composite) -> Composite {
@@ -781,34 +810,43 @@ struct Composite<T> {
 }
 ```
 
+### Not Preferred:
+
+```swift
+struct Composite<T> {
+  …
+  func compose(other: Composite<T>) -> Composite<T> {
+    return Composite<T>(self, other)
+  }
+}
+```
+
 _Rationale:_ Omitting redundant type parameters clarifies the intent, and makes it obvious by contrast when the returned type takes different type parameters.
 
 * Use whitespace around operator definitions
 
-```swift
-// WRONG
-func <|(lhs: Int, rhs: Int) -> Int
-func <|<<A>(lhs: A, rhs: A) -> A
+### Preferred:
 
-// RIGHT
+```swift
 func <| (lhs: Int, rhs: Int) -> Int
 func <|< <A>(lhs: A, rhs: A) -> A
+```
+
+### Not Preferred:
+
+```swift
+func <|(lhs: Int, rhs: Int) -> Int
+func <|<<A>(lhs: A, rhs: A) -> A
 ```
 
 _Rationale:_ Operators consist of punctuation characters, which can make them difficult to read when immediately followed by punctuation for a type or a value parameter list. Adding whitespace separates the two more clearly.
 
 * Place function/type attributes on the line above the declaration
 
+
+### Preferred:
+
 ```swift
-// WRONG
-@objc class Spaceship {
-
-  @discardableResult func fly() -> Bool {
-  }
-}
-
-// RIGHT
-
 @objc
 class Spaceship {
 
@@ -818,15 +856,21 @@ class Spaceship {
 }
 ```
 
-* Multi-line arrays should have each bracket on a separate line
+### Not Preferred:
 
 ```swift
-// WRONG
-let rowContent = [listingUrgencyDatesRowContent(),
-                  listingUrgencyBookedRowContent(),
-                  listingUrgencyBookedShortRowContent()]
+@objc class Spaceship {
 
-// RIGHT
+  @discardableResult func fly() -> Bool {
+  }
+}
+```
+
+* Multi-line arrays should have each bracket on a separate line
+
+### Preferred:
+
+```swift
 let rowContent = [
   listingUrgencyDatesRowContent(),
   listingUrgencyBookedRowContent(),
@@ -834,39 +878,33 @@ let rowContent = [
 ]
 ```
 
-* Multi-line conditional statements should break after the leading keyword
+### Not Preferred:
 
 ```swift
-// WRONG
-if let galaxy = galaxy,
-  galaxy.name == "Milky Way" // Indenting by two spaces fights Xcode's ^+I indentation behavior
-{ … }
+let rowContent = [listingUrgencyDatesRowContent(),
+                  listingUrgencyBookedRowContent(),
+                  listingUrgencyBookedShortRowContent()]
+```
 
-// RIGHT
+* Multi-line conditional statements should break after the leading keyword
+
+### Preferred:
+
+```swift
 guard let galaxy = galaxy,
       galaxy.name == "Milky Way" // Variable width indentation (6 spaces)
 else { … }
 
-// WRONG
-guard let earth = unvierse.find(
-  .planet,
-  named: "Earth"),
-  earth.isHabitable // Blends in with previous condition's method arguments
-else { … }
-
-// RIGHT
 if
   let galaxy = galaxy,
   galaxy.name == "Milky Way"
 { … }
 
-// RIGHT
 guard
   let galaxy = galaxy,
   galaxy.name == "Milky Way"
 else { … }
 
-// RIGHT
 guard
   let earth = unvierse.find(
     .planet,
@@ -874,41 +912,61 @@ guard
   earth.isHabitable
 else { … }
 
-// RIGHT
 if let galaxy = galaxy {
   …
 }
 
-// RIGHT
 guard let galaxy = galaxy else {
   …
 }
 ```
 
-* Use constructors instead of  `Make()` functions for NSRange and others
-    
-```swift
-// WRONG
-let range = NSMakeRange(10, 5)
+### Not Preferred:
 
-// RIGHT
+```swift
+if let galaxy = galaxy,
+  galaxy.name == "Milky Way" // Indenting by two spaces fights Xcode's ^+I indentation behavior
+{ … }
+
+guard let earth = unvierse.find(
+  .planet,
+  named: "Earth"),
+  earth.isHabitable // Blends in with previous condition's method arguments
+else { … }
+```
+
+* Use constructors instead of  `Make()` functions for NSRange and others
+
+### Preferred:
+
+```swift
 let range = NSRange(location: 10, length: 5)
+```
+
+### Not Preferred:
+
+```swift
+let range = NSMakeRange(10, 5)
 ```
 
 For standard library types with a canonical shorthand form (Optional, Array, Dictionary), prefer using the shorthand form over the full generic form
 
-```swift
-// WRONG
-let optional: Optional<String> = nil
-let array: Array<String> = []
-let dictionary: Dictionary<String, Any> = [:]
+### Preferred:
 
-// RIGHT
+```swift
 let optional: String? = nil
 let array: [String] = []
 let dictionary: [String: Any] = [:]
 ```
-    
+
+### Not Preferred:
+
+```swift
+let optional: Optional<String> = nil
+let array: Array<String> = []
+let dictionary: Dictionary<String, Any> = [:]
+```
+
 * Prefer using guard at the beginning of a scope (see example at Early Return)
 * Prefer methods within type definitions instead of global functions
 
@@ -916,20 +974,9 @@ let dictionary: [String: Any] = [:]
 
 * Prefer initializing properties at init time whenever possible, rather than using implicitly unwrapped optionals
 
+### Preferred:
+
 ```swift
-// WRONG
-class MyClass {
-  
-  var someValue: Int!
-
-  init() {
-    super.init()
-    someValue = 5
-  }
-
-}
-
-// RIGHT
 class MyClass {
 
   var someValue: Int
@@ -938,28 +985,29 @@ class MyClass {
     someValue = 0
     super.init()
   }
+}
+```
 
+### Not Preferred:
+
+```swift
+class MyClass {
+  
+  var someValue: Int!
+
+  init() {
+    super.init()
+    someValue = 5
+  }
 }
 ```
 
 * Avoid performing any meaningful or time-intensive work in init()
 * Extract complex property observers into methods
 
+### Preferred:
+
 ```swift
-// WRONG
-class TextField {
-  var text: String? {
-    didSet {
-      guard oldValue != text else {
-        return
-      }
-
-      // Do a bunch of text-related side-effects.
-    }
-  }
-}
-
-// RIGHT
 class TextField {
   var text: String? {
     didSet { textDidUpdate(from: oldValue) }
@@ -975,26 +1023,30 @@ class TextField {
 }
 ```
 
+### Not Preferred:
+
+```swift
+class TextField {
+  var text: String? {
+    didSet {
+      guard oldValue != text else {
+        return
+      }
+
+      // Do a bunch of text-related side-effects.
+    }
+  }
+}
+```
+
 _Rationale_: This reduces nestedness, separates side-effects from property declarations, and makes the usage of implicitly-passed parameters like oldValue explicit.
 
 * Extract complex callback blocks into methods 
 * If you need to reference self in the method call, make use of guard to unwrap self for the duration of the callback if you are using `weak`.
 
+### Preferred:
+
 ```swift
-//WRONG
-class MyClass {
-
-  func request(completion: () -> Void) {
-    API.request { [weak self] response in
-      if let self = self {
-        // Processing and side effects
-      }
-      completion()
-    }
-  }
-}
-
-// RIGHT
 class MyClass {
 
   func request(completion: () -> Void) {
@@ -1007,6 +1059,22 @@ class MyClass {
 
   func doSomething(with nonOptionalParameter: SomeClass, response: SomeResponseClass) {
     // Processing and side effects
+  }
+}
+```
+
+### Not Preferred:
+
+```swift
+class MyClass {
+
+  func request(completion: () -> Void) {
+    API.request { [weak self] response in
+      if let self = self {
+        // Processing and side effects
+      }
+      completion()
+    }
   }
 }
 ```
@@ -1161,21 +1229,26 @@ let view = UIView(frame: CGRect.zero)
 * Infix operators should have a single space on either side
 * Prefer parenthesis to visually group statements with many operators rather than varying widths of whitespace
 
-```swift
-// WRONG
-let capacity = 1+2
-let capacity = currentCapacity   ?? 0
-let mask = (UIAccessibilityTraitButton|UIAccessibilityTraitSelected)
-let capacity=newCapacity
-let latitude = region.center.latitude - region.span.latitudeDelta/2.0
+### Preferred:
 
-// RIGHT
+```swift
 let capacity = 1 + 2
 let capacity = currentCapacity ?? 0
 let mask = (UIAccessibilityTraitButton | UIAccessibilityTraitSelected)
 let capacity = newCapacity
 let latitude = region.center.latitude - (region.span.latitudeDelta / 2.0)
 ```
+
+### Not Preferred:
+
+```swift
+let capacity = 1+2
+let capacity = currentCapacity   ?? 0
+let mask = (UIAccessibilityTraitButton|UIAccessibilityTraitSelected)
+let capacity=newCapacity
+let latitude = region.center.latitude - region.span.latitudeDelta/2.0
+```
+
 
 ### Ternary Operator
 
@@ -1184,19 +1257,22 @@ let latitude = region.center.latitude - (region.span.latitudeDelta / 2.0)
 * Evaluating multiple conditions is usually more understandable as an if statement or refactored into instance variables.
 * In general, the best use of the ternary operator is during assignment of a variable and deciding which value to use.
 
-```swift
-/// RIGHT
+### Preferred:
 
+```swift
 let value = 5
 result = value != 0 ? x : y
 
 let isHorizontal = true
 result = isHorizontal ? x : y
+```
 
-// WRONG
+### Not Preferred:
 
+```swift
 result = a > b ? x = c > d ? c : d : y    
 ```
+
 ## Lazy Initialization
 
  * Consider using lazy initialization for finer grained control over object lifetime
