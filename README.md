@@ -6,7 +6,7 @@ a rough priority order):
 1. increased rigor and decreased likelihood of programmer error
 2. increased clarity of intent
 3. reduced verbosity
-4. fewer debates about aesthetics
+4. fewer repetitive debates about aesthetics
 
 ## One rule to rule them all ---> **KISS** <---
 
@@ -37,28 +37,37 @@ import UIKit
 
 class Person {
 
-  // 2.1. public, internal properties
+  // 2.1. IBOutles
+  @IBOutlet private weak var closeButton: UIButton!
+  @IBOutlet private weak var loginButton: UIButton!
+  @IBOutlet private weak var titleLabel: UILabel!
+  
+  // 2.2 public, internal properties
   let name: String
   private(set) var oib: Int
 
-  // 2.2. private properties
+  // 2.3. private properties
   unowned private let bankCard: BankCard
 
-  // 2.3. Initializers
+  // 2.4. Initializers
   init(name: String, bankCard: BankCard)
 
-  // 2.4. Public, internal functions
+  // 2.5. Public, internal functions
   func hasValidBankCard() -> Bool
 
-  // 2.5. Private functions
-  private func _setupPerson() -> Void
+  // 2.6. Private functions
+  private func setupPerson() -> Void
 }
 
 // 3. extensions, protocol implementations
-extension Person : CustomStringConvertible {
+extension Person: CustomStringConvertible {
 
   var description: String {
     return "\(name) has \(bankCard.name) card."
+  }
+  
+  var age: String {
+    "\(name) is \(age) years old."
   }
 }
 ```
@@ -77,8 +86,8 @@ extension Person : CustomStringConvertible {
 
 * __Be mindful about grammar!__
 * Names should be meaningful and compact.
-* Use UpperCamelCase for types and protocols, lowerCamelCase for everything else
-* Include all needed words while omitting needless words
+* Use `UpperCamelCase` for types and protocols, `lowerCamelCase` for everything else
+* Include all needed words while omitting needless ones
 * Use names based on roles, not types
 * Strive for fluent usage
 * Begin factory methods with make
@@ -89,7 +98,7 @@ extension Person : CustomStringConvertible {
 * Protocols that describe what something is should read as nouns
 * Protocols that describe a capability should end in -able or -ible
 * Use terms that don't surprise experts or confuse beginners
-* Generally avoiding abbreviations
+* Generally avoid abbreviations
 * Prefer methods and properties to free functions
 * Case acronyms and initialisms uniformly up or down
 * Give the same base name to methods that share the same meaning
@@ -106,11 +115,11 @@ extension Person : CustomStringConvertible {
 
 ## Constants
 
- * Constants are defined using the let keyword and variables with the var keyword
- * Always use let instead of var if the value of the variable will not change
+ * Constants are defined using the `let` keyword and variables with the `var` keyword
+ * Always use `let` instead of `var` if the value of the variable will not change
  * You can define constants on a type rather than on an instance of that type using type properties
  * Type properties declared in this way are generally preferred over global constants because they are easier to distinguish from instance properties
- * To declare a type property as a constant simply use static let
+ * To declare a type property as a constant simply use `static let`
 
 ### Preferred:
 
@@ -149,7 +158,7 @@ let hypotenuse = side * root2 // what is root2?
 ### Preferred
 
 ```swift
-let color: String = "red"
+let color = "red"
 ```
 
 ### Not preferred
@@ -161,12 +170,11 @@ let colour: String = "red"
 _Rationale:_ Use US English spelling to match Apple's API.
 
 ## Closures
-* If the last argument of the function is a closure, use trailing closure syntax
+* If the last argument of the function is a closure, use trailing closure syntax only when it makes sense and it's clear what the closure is doing
 * If it's the only argument, parentheses may be omitted
 * Unused closure arguments should be replaced with _ (or fully omitted if no arguments are used)
 * In most cases, argument types should be inferred
-* If **capturing self**, always use `[weak self]`
-* If **in doubt**, always use `[weak self]`
+* If **capturing self**,  use `weak` and  `unowned` appropriately.
 * Give the closure parameters descriptive names
 
 ## Closure expressions
@@ -178,10 +186,12 @@ UIView.animate(withDuration: 0.3) {
     self.myView.alpha = 0
 }
 
-UIView.animate(withDuration: 0.3,
+UIView.animate(
+    withDuration: 0.3,
     animations: {
         self.myView.alpha = 0
-    }, completion: { finished in
+    },
+    completion: { _ in
         self.myView.removeFromSuperview()
     }
 )
@@ -212,7 +222,7 @@ UIView.animate(withDuration: 0.3, animations: {
 * Chained methods using trailing closures should be clear and easy to read in context.
 
 ```swift
-  let value = numbers.map { $0 * 2 }.filter { $0 .isMultiple(of: 3) }.map { $0 + 10 }
+  let value = numbers.map { $0 * 2 }.filter { $0.isMultiple(of: 3) }.map { $0 + 10 }
 
   let value1 = numbers
     .map { $0 * 2 }
@@ -233,6 +243,10 @@ UIView.animate(withDuration: 0.3, animations: {
 ```swift      
 var diameter: Double {
   return radius * 2
+}
+
+var area: Double {
+    radius * radius * pi
 }
 ```
 
@@ -277,13 +291,13 @@ For functions with long signatures, put each parameter on a new line and add an 
 
 ```swift 
 func reticulateSplines(
-      spline: [Double], 
-      adjustmentFactor: Double,
-      translateConstant: Int, 
-      comment: String
-    ) -> Bool {
-      // reticulate code goes here
-    }
+    spline: [Double], 
+    adjustmentFactor: Double,
+    translateConstant: Int, 
+    comment: String
+) -> Bool {
+    // reticulate code goes here
+}
 ```
 
 * Don't use (Void) to represent the lack of an input; simply use (). Use Void instead of () for closure and function outputs
@@ -454,7 +468,7 @@ for element in input {
 }
 
 // RIGHT
-let results = input.map { transform($0) }
+let results = input.map(transform)
 
 // WRONG
 var results = [SomeType]()
@@ -465,7 +479,7 @@ for element in input {
 }
 
 // RIGHT
-let results = input.compactMap { transformThatReturnsAnOptional($0) }
+let results = input.compactMap(transformThatReturnsAnOptional)
 ```
 
 ## Return and break early
@@ -506,8 +520,11 @@ if let foo = foo {
 * Alternatively, you might want to use Swift's Optional Chaining in some of these cases, such as:
 
 ```swift
-// Call the function if `foo` is not nil. If `foo` is nil, forget we ever tried to make the call
+// Call the function if `foo` is not nil. If `foo` is nil, forget we ever tried to make the call.
 foo?.callSomethingIfFooIsNotNil()
+
+// Call the map function only if `foo` is not nil. In this case, `result` is also optional but it is another type.
+let result = foo.flatMap(mapToResult)
 ```
 
 _Rationale:_ Explicit `if let`-binding of Optionals results in safer code. Force unwrapping is more prone to lead to runtime crashes.
@@ -562,7 +579,7 @@ extension History {
     self.events = events
   }
 
-  var whenVictorious: () -> () {
+  var whenVictorious: () -> Void {
     return {
       self.rewrite()
     }
@@ -573,19 +590,19 @@ extension History {
 * Don't use `self` unless it's necessary for disambiguation or required by the language
 
 ```swift
-   private func increaseCapacity(by amount: Int) {
-        // WRONG
-        self.capacity += amount
+private func increaseCapacity(by amount: Int) {
+    // WRONG
+    self.capacity += amount
 
-        // RIGHT
-        capacity += amount
+    // RIGHT
+    capacity += amount
 
-        // WRONG
-        self.save()
+    // WRONG
+    self.save()
 
     // RIGHT
     save()
-  }
+}
 ```
 
 * Bind to `self` when upgrading from a weak reference
@@ -595,7 +612,7 @@ extension History {
 class MyClass {
 
   func request(completion: () -> Void) {
-    API.request() { [weak self] response in
+    API.request { [weak self] response in
       guard let strongSelf = self else { return }
       // Do work
       completion()
@@ -607,7 +624,7 @@ class MyClass {
 class MyClass {
 
   func request(completion: () -> Void) {
-    API.request() { [weak self] response in
+    API.request { [weak self] response in
       guard let self = self else { return }
       // Do work
       completion()
@@ -692,7 +709,7 @@ let evens = userCounts.filter { number in number % 2 == 0 }
 let squares = userCounts.map { $0 * $0 }
 ```
 
-* Omit enum associated values from case statements when all arguments are unlabeled
+* Omit enum associated values from case statements when all arguments are unlabelled
 
 ```swift
 // WRONG
@@ -870,24 +887,26 @@ let dictionary: [String: Any] = [:]
 ```swift
 // WRONG
 class MyClass {
+  
+  var someValue: Int!
 
   init() {
     super.init()
     someValue = 5
   }
 
-  var someValue: Int!
 }
 
 // RIGHT
 class MyClass {
+
+  var someValue: Int
 
   init() {
     someValue = 0
     super.init()
   }
 
-  var someValue: Int
 }
 ```
 
@@ -927,14 +946,14 @@ class TextField {
 _Rationale_: This reduces nestedness, separates side-effects from property declarations, and makes the usage of implicitly-passed parameters like oldValue explicit.
 
 * Extract complex callback blocks into methods 
-* If you need to reference self in the method call, make use of guard to unwrap self for the duration of the callback.
+* If you need to reference self in the method call, make use of guard to unwrap self for the duration of the callback if you are using `weak`.
 
 ```swift
 //WRONG
 class MyClass {
 
   func request(completion: () -> Void) {
-    API.request() { [weak self] response in
+    API.request { [weak self] response in
       if let self = self {
         // Processing and side effects
       }
@@ -947,7 +966,7 @@ class MyClass {
 class MyClass {
 
   func request(completion: () -> Void) {
-    API.request() { [weak self] response in
+    API.request { [weak self] response in
       guard let self = self else { return }
       self.doSomething(with: self.property, response: response)
       completion()
@@ -1036,12 +1055,14 @@ class MyViewController: UIViewController {
   // class stuff here
 }
 
-// MARK: - UITableViewDataSource
+// MARK: - UITableViewDataSource -
+
 extension MyViewController: UITableViewDataSource {
   // table view data source methods
 }
 
-// MARK: - UIScrollViewDelegate
+// MARK: - UIScrollViewDelegate -
+
 extension MyViewController: UIScrollViewDelegate {
   // scroll view delegate methods
 }
