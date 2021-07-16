@@ -259,7 +259,7 @@ UIView.animate(withDuration: 0.3, animations: {
 ### Preferred:
 
 ```swift
-  let value1 = numbers
+let value1 = numbers
     .map { $0 * 2 }
     .filter { $0 > 50 }
     .map { $0 + 10 }
