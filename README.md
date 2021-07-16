@@ -249,9 +249,9 @@ UIView.animate(withDuration: 0.3, animations: {
 * For single-expression closures where the context is clear, use implicit returns
 
 ```swift
-    attendeeList.sort { a, b in
-      a > b
-    }
+attendeeList.sort { a, b in
+    a > b
+}
 ```
 
 * Chained methods using trailing closures should be clear and easy to read in context.
