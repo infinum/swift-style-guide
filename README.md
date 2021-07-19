@@ -10,7 +10,6 @@ a rough priority order):
 
 ## One rule to rule them all ---> **KISS** <---
 
-* Don't be a smartass.
 * Read, understand, and apply [KISS](https://en.wikipedia.org/wiki/KISS_principle).
 
 ***Trivia:*** The phrase was coined by the lead engineer of SR-71 Blackbird.
