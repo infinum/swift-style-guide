@@ -1,3 +1,9 @@
+<p align="center">
+  <a href='https://infinum.com'>
+    <img src='https://infinum.com/infinum.png' href='https://infinum.com' width='264'>
+  </a>
+</p>
+
 # A guide to our Swift style and conventions.
 
 This is an attempt to encourage patterns of coding that help accomplish the following goals (in
@@ -1324,3 +1330,11 @@ private func makeLocationManager() -> CLLocationManager {
 * Semicolons are obfuscative and should never be used.
 * Unused (dead) code, including Xcode template code and placeholder comments should be removed.
 * Don't use `#imageLiteral` or `#colorLiteral`, use Redbreast.
+
+## Credits
+
+Maintained and sponsored by [Infinum](http://www.infinum.com).
+<a href='https://infinum.com'>
+  <img src='https://infinum.com/infinum.png' href='https://infinum.com' width='264'>
+</a>
+
