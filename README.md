@@ -14,12 +14,6 @@ a rough priority order):
 3. reduced verbosity
 4. fewer repetitive debates about aesthetics
 
-## One rule to rule them all ---> **KISS** <---
-
-* Read, understand, and apply [KISS](https://en.wikipedia.org/wiki/KISS_principle).
-
-***Trivia:*** The phrase was coined by the lead engineer of SR-71 Blackbird.
-
 ## Table of Contents
 1. [Whitespace](#whitespace)
 2. [Code organization](#code-organization)
