@@ -364,7 +364,6 @@ func updateConstraints() -> Void {
 }
 
 typealias CompletionHandler = (result) -> ()
-typealias CompletionHandler = (result) -> Void
 ```
 
 * Omit Void return types from function definitions
