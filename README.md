@@ -699,7 +699,7 @@ class MyClass {
 
   func request(completion: () -> Void) {
     API.request { [weak self] response in
-      guard let self = self else { return }
+      guard let strongSelf = self else { return }
       // Do work
       completion()
     }
