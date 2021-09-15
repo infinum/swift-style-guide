@@ -45,7 +45,6 @@ a rough priority order):
 
 ## Whitespace
 
-* Tabs, not spaces.
 * End files with a new line.
 * Make liberal use of vertical whitespace to divide the code into logical chunks.
 * Don’t leave trailing whitespace. Xcode has an option for this in `Preferences -> Automatically trim trailing whitespace and Including whitespace-only lines`.
