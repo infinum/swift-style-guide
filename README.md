@@ -1,8 +1,11 @@
-<p align="center">
+<!-- <p align="center">
   <a href='https://infinum.com'>
     <img src='https://infinum.com/infinum.png' href='https://infinum.com' width='264'>
   </a>
-</p>
+</p> -->
+
+![logo](https://assets.infinum.com/brand/logo/static/default.svg#gh-light-mode-only)
+![dark mode logo](https://assets.infinum.com/brand/logo/static/white.svg#gh-dark-mode-only)
 
 # A guide to our Swift style and conventions.
 
