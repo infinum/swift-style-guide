@@ -9,7 +9,6 @@ analyzer_rules:
 
 only_rules:
   - array_init
-  - attributes
   - block_based_kvo
   - closing_brace
   - closure_body_length
