@@ -45,6 +45,7 @@ a rough priority order):
 25. [Operators](#operators)
 26. [Lazy Initialization](#lazy-initialization)
 27. [Forbidden](#forbidden)
+28. [RxSwift](#RxSwift)
 
 ## Whitespace
 
@@ -1325,6 +1326,10 @@ private func makeLocationManager() -> CLLocationManager {
 * Semicolons are obfuscative and should never be used.
 * Unused (dead) code, including Xcode template code and placeholder comments should be removed.
 * Don't use `#imageLiteral` or `#colorLiteral`, use Redbreast.
+
+## RxSwift
+
+Since RxSwift is quite complex on its own, we have created a secondary [Readme](RxSwift.md) file for it.
 
 ## Credits
 
