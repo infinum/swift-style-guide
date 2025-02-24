@@ -1329,7 +1329,7 @@ private func makeLocationManager() -> CLLocationManager {
 
 ## RxSwift
 
-Since RxSwift is quite complex on its own, we have created a secondary [Readme](RxSwift.md) file for it.
+Due to the reactive nature of RxSwift library and different approaches, we defined our own [code style](RxSwift.md) for it.
 
 ## Credits
 
