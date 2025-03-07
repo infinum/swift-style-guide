@@ -278,6 +278,27 @@ let value = numbers.map { $0 * 2 }.filter { $0.isMultiple(of: 3) }.map { $0 + 10
 
 ## Computed Properties
 
+Computed properties should be short, concise, and focused on transforming or providing access to data. They should not contain side effects like networking calls, file operations, or complex business logic.
+
+If an operation has side effects or performs complex calculations, use a function instead.
+
+### Preferred:
+
+```swift
+var fullName: String { "\(firstName) \(lastName)" }
+```
+
+### Not Preferred:
+
+```swift
+var userProfile: UserProfile {
+    get async {
+        let data = await NetworkManager.shared.fetchUserData()
+        return UserProfile(from: data)
+    }
+}
+```
+
 * For conciseness, if a computed property is read-only, omit the get clause
 * The get clause is required only when a set clause is provided
 
