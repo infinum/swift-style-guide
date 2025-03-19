@@ -182,3 +182,14 @@ number_separator:
 type_body_length:
   warning: 300
   error: 450
+
+opt_in_rules:
+  - custom_rules
+  - type_inferred_init
+
+custom_rules:
+  type_inferred_init:
+    name: "Type inferred init"
+    regex: "(?<![A-Za-z0-9_])\\.init\\s*\\("
+    message: "Type inferred init. Use type name instead."
+    severity: warning
