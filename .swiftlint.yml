@@ -135,6 +135,7 @@ only_rules:
   - void_return
   - weak_delegate
   - yoda_condition
+  - type_inferred_init
 
 file_length:
   warning: 600
@@ -182,10 +183,6 @@ number_separator:
 type_body_length:
   warning: 300
   error: 450
-
-opt_in_rules:
-  - custom_rules
-  - type_inferred_init
 
 custom_rules:
   type_inferred_init:
