@@ -184,7 +184,19 @@ number_separator:
 type_body_length:
   warning: 300
   error: 450
-
+modifier_order:
+  preferred_modifier_order:
+    - acl
+    - setterACL
+    - override
+    - dynamic
+    - mutators
+    - lazy
+    - final
+    - required
+    - convenience
+    - typeMethods
+    - owned
 custom_rules:
   type_inferred_init:
     name: "Type inferred init"
